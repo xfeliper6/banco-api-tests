@@ -1,11 +1,12 @@
 const request = require('supertest');
 const { expect } = require('chai')
+require('dotenv').config()
 
 describe('Transferencias', () => {
     describe('POST', () => {
         it('Deve retornar sucesso com status code 201 quando o valor da transferência for igual ou acima de R$ 10,00', async () => {
             //Capturar o token
-            const responseLogin = await request('http://localhost:3000') 
+            const responseLogin = await request(process.env.BASE_URL) 
                 .post('/login')
                 .set('Content-Type', 'application/json') 
                 .send({          
@@ -16,7 +17,7 @@ describe('Transferencias', () => {
                 const token = responseLogin.body.token
                 console.log(responseLogin.body.token)
 
-            const responseTransferencia = await request('http://localhost:3000')
+            const responseTransferencia = await request(process.env.BASE_URL)
                 .post('/transferencias')
                 .set('Authorization', `Bearer ${token}`)
                 .set('Content-Type', 'application/json')
@@ -31,7 +32,7 @@ describe('Transferencias', () => {
 
         })
         it('Deve retornar falha com status code 422 quando o valor da transferência for abaixo de R$ 10,00', async () => {
-            const responseLogin = await request('http://localhost:3000') 
+            const responseLogin = await request(process.env.BASE_URL) 
                 .post('/login')
                 .set('Content-Type', 'application/json') 
                 .send({          
@@ -42,7 +43,7 @@ describe('Transferencias', () => {
                 const token = responseLogin.body.token
                 console.log(responseLogin.body.token)
 
-            const responseTransferencia = await request('http://localhost:3000')
+            const responseTransferencia = await request(process.env.BASE_URL)
                 .post('/transferencias')
                 .set('Authorization', `Bearer ${token}`)
                 .set('Content-Type', 'application/json')
