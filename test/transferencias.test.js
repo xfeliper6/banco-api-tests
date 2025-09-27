@@ -5,11 +5,15 @@ const { obterToken } = require('../helpers/autenticacao')
 
 describe('Transferencias', () => {
     describe('POST', () => {
+
+        let token
+
+        beforeEach(async ()=>{
+            token = await obterToken('julio.lima','123456')
+        })
+
         it('Deve retornar sucesso com status code 201 quando o valor da transferência for igual ou acima de R$ 10,00', async () => {
            
-
-            const token = await obterToken('julio.lima','123456')
-
             const responseTransferencia = await request(process.env.BASE_URL)
                 .post('/transferencias')
                 .set('Authorization', `Bearer ${token}`)
@@ -26,8 +30,6 @@ describe('Transferencias', () => {
         })
         it('Deve retornar falha com status code 422 quando o valor da transferência for abaixo de R$ 10,00', async () => {
             
-            const token = await obterToken('julio.lima','123456')
-
             const responseTransferencia = await request(process.env.BASE_URL)
                 .post('/transferencias')
                 .set('Authorization', `Bearer ${token}`)
